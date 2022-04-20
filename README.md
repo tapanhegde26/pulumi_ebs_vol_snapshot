@@ -10,12 +10,7 @@ In this repo, I tried to develop infrastructure on aws with help of pulumi to ac
 * [Pre-requisite](#pre-requisite)
 * [Set-up](#set-up)
 * [Usage](#usage)
-  * [Notes](#notes)
-* [output](#output)
-* [Project-status](#project-status)
-* [Future-improvement](#future-improvement)
-* [Challenges](#challenges)
-* [References](#references)
+
 
 ## Technologies
 Project is created with:
