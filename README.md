@@ -1,10 +1,11 @@
 # AWS EC2 + pulumi - EBS volume management using Pulumi IaC tool
 In this repo, I tried to develop infrastructure on aws with help of pulumi to achieve below use-cases 
-    * Get details of all EBS volumes attached to an EC2 instance (Source - EC2 Instance)
-    * Create Snapshot of each EBS volume attached to source EC2 Instance
-    * Create volumes from above created snapshots (Here we need to clone EBS volumes)
-    * Attach these newly created cloned EBS volumes to target EC2 Instance
+ * Get details of all EBS volumes attached to an EC2 instance (Source - EC2 Instance)
+ * Create Snapshot of each EBS volume attached to source EC2 Instance
+ * Create volumes from above created snapshots (Here we need to clone EBS volumes)
+ * Attach these newly created cloned EBS volumes to target EC2 Instance
     
+## Table of contents
 * [Technologies](#technologies)
 * [Operating-System](#operating-system)
 * [Pre-requisite](#pre-requisite)
@@ -58,17 +59,17 @@ Project is created with:
    $ pulumi new
    ```
    Note : Create an empty directory and then run 'pulumi new' command as this command generates set of pre-defined files (requirements.txt,         Pulumi.yaml,__main__.py)
-The pulumi new command creates a new Pulumi project with some basic scaffolding based on the cloud and language specified.
+      The pulumi new command creates a new Pulumi project with some basic scaffolding based on the cloud and language specified.
 
-If this is your first time running pulumi new or most other pulumi commands, you will be prompted to log in to the Pulumi service. The Pulumi CLI works in tandem with the Pulumi service in order to deliver a reliable experience. It is free for individual use, with features available for teams. Hitting ENTER at the prompt opens up a web browser allowing you to either sign in or sign up.
+      If this is your first time running pulumi new or most other pulumi commands, you will be prompted to log in to the Pulumi service. The Pulumi CLI works in tandem with the Pulumi service in order to deliver a reliable experience. It is free for individual use, with features available for teams. Hitting ENTER at the prompt opens up a web browser allowing you to either sign in or sign up.
 
-After logging in, the CLI will proceed with walking you through creating a new project.
+      After logging in, the CLI will proceed with walking you through creating a new project.
 
-First, you will be asked for a project name and description. Hit ENTER to accept the default values or specify new values.
+      First, you will be asked for a project name and description. Hit ENTER to accept the default values or specify new values.
 
-Next, you will be asked for the name of a stack. Hit ENTER to accept the default value of dev.
+      Next, you will be asked for the name of a stack. Hit ENTER to accept the default value of dev.
 
-Finally, you will be prompted for some configuration values for the stack. For AWS projects, you will be prompted for the AWS region. You can accept the default value or choose another value like us-west-2.
+      Finally, you will be prompted for some configuration values for the stack. For AWS projects, you will be prompted for the AWS region. You can accept the default value or choose another value like us-west-2.
 
 ## Usage
 * Files used in this project with their functionality listed
