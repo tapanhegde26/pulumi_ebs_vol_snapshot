@@ -35,7 +35,7 @@ Project is created with:
 ## Set-up
 * Git needs to be installed in host machine
    * [git](https://linuxconfig.org/install-git-in-linux-redhat-8)
-* Install Python3, Terraform, Ansible locally.
+* Install Python3, pulumi locally.
    * [Python3 installation](https://linuxconcept.com/how-to-install-python-3-on-rhel-8-red-hat-enterprise-linux/)
    * Pulumi : 
       * [Download Pulumi](https://www.pulumi.com/docs/get-started/aws/begin/)
