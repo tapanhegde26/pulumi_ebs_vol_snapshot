@@ -76,6 +76,7 @@ Project is created with:
   * requirements.txt :- list of python libs needs to be installed
   * Pulumi.yaml :- Yaml file containing details about pulumi run-time virtual environment
   * __main__.py :- Python file where logic is being written
+  * Pulumi.dev.yaml :- Input parameters like source-instance ID, Target Instance ID, AZ is mentioned in this file.
   
 To run this project, execute below commands.
   * create dummy directory with some valid name
@@ -88,7 +89,7 @@ To run this project, execute below commands.
     pulumi new
     ```
   * Copy contents of __main__.py of this repo into your __main__.py (Auto-generated one)
-  * Change Source-Instance-Id , Target-Instance-ID and region in __main__.py file (Give your instance-ID detials here)
+  * Change Source-Instance-Id , Target-Instance-ID and region in Pulumi.dev.yaml file (Give your instance-ID detials here)
   * Run 'pulumi up' command
     ```
     pulumi up
