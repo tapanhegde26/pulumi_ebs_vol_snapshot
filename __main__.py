@@ -1,5 +1,5 @@
 """An AWS Python Pulumi program"""
-
+import pulumi
 import pulumi_aws as aws
 import datetime
 import logging
@@ -7,8 +7,11 @@ import logging
 logger = logging.getLogger(__name__)
 ct = datetime.datetime.now()
 ts = ct.timestamp()
-source_instance = aws.ec2.get_instance(instance_id="i-07489eeacaa7bdf12")
-target_instance = aws.ec2.get_instance(instance_id="i-0a7667569757abf84")
+config = pulumi.Config()
+data = config.require_object("data")
+# print ("Source Instance :",data.get("source_instance_id"))
+source_instance = aws.ec2.get_instance(instance_id=data.get("source_instance_id"))
+target_instance = aws.ec2.get_instance(instance_id=data.get("target_instance_id"))
 
 ebslist = source_instance.ebs_block_devices
 snapshot_name = "vol_snapshots"+"-"+str(ts)
@@ -23,7 +26,7 @@ try:
             logger.exception("Snapshot creation failed")
             raise
         try:
-            source_cloned_volume = aws.ebs.Volume(cloned_vol_name+str(i.volume_id),availability_zone="us-east-1c",snapshot_id=source_snapshot.id)
+            source_cloned_volume = aws.ebs.Volume(cloned_vol_name+str(i.volume_id),availability_zone=data.get("az"),snapshot_id=source_snapshot.id)
         except RuntimeError:
             logger.exception("Volume creation from snapshots failed")
             raise
@@ -35,5 +38,4 @@ try:
 except RuntimeError:
     logger.exception("Looping through EBS block list failed")
     raise
-
 

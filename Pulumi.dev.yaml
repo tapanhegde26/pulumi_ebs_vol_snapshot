@@ -1,0 +1,7 @@
+config:
+  aws:region: us-east-1
+  pulumi-devops-junction:data:
+    active: true
+    az: us-east-1c
+    source_instance_id: i-07489eeacaa7bdf12
+    target_instance_id: i-0a7667569757abf84
