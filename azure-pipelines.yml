@@ -1,36 +1,66 @@
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
-- main
+- '*'
 
-pool:
-  vmImage: ubuntu-latest
-strategy:
-  matrix:
-    Python27:
-      python.version: '2.7'
-    Python35:
-      python.version: '3.5'
-    Python36:
-      python.version: '3.6'
-    Python37:
-      python.version: '3.7'
+pr:
+- '*'
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+jobs:
+- job: Build
+  displayName: 'Build job'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: |
+      # Install OpenJDK 11
+      sudo apt-get install openjdk-11-jdk -y
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+      # Build the Spring Boot application using Maven
+      ./mvnw clean package -DskipTests=true
+    displayName: 'Build'
+    workingDirectory: $(System.DefaultWorkingDirectory)
 
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+- job: Test
+  displayName: 'Test job'
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: Build
+  steps:
+  - script: |
+      # Run tests using Maven
+      ./mvnw test
+    displayName: 'Run Tests'
+    workingDirectory: $(System.DefaultWorkingDirectory)
+
+- job: Publish
+  displayName: 'Publish Artifacts'
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: Test
+  steps:
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/target'
+      artifactName: 'drop'
+    displayName: 'Publish Artifact'
+
+- job: Deploy
+  displayName: 'Deploy to Azure App Service'
+  pool:
+    vmImage: 'ubuntu-latest'
+  dependsOn: Publish
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+  - script: |
+      # Install Azure CLI extension for webapps
+      pip install --upgrade azure-cli
+      az extension add --name webapp
+
+      # Azure login (replace with your Azure service connection)
+      az login --service-principal -u <service-principal-id> -p <service-principal-password> --tenant <tenant-id>
+
+      # Deploy the Spring Boot JAR to Azure App Service (replace with your specific details)
+      az webapp deploy --name <app-service-name> --resource-group <resource-group-name> --type jar --path '$(System.DefaultWorkingDirectory)/target/abc.jar'
+    displayName: 'Deploy to Azure App Service'
